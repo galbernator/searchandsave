@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-xs-12 center">
+    <h1>This is the site banner header</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
+    <div class="input-group">
+      <div class="input-group-btn dropdown keep-open">
+        <button id="vendor-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>All Retailers</span> <span class="caret"></span></button>
+        <ul class="dropdown-menu" id="vendor-dropdown">
+          <li><input type="checkbox" checked="true" id="all-vendors"><label for="all-vendors" class="search-all">Search All Retailers</span></a></li>
+          <li role="separator" class="divider"></li>
+          <% @vendors.each do |vendor| %>
+            <li><input type="checkbox" checked="true" id="<%= vendor.name.downcase %>" class="vendor-checkbox"><label for="<%= vendor.name %>" class="vendor-name"><%= vendor.name %></span></li>
+          <% end %>
+        </ul>
+      </div><!-- /btn-group -->
+      <input id="search-input" type="text" placeholder='e.g "Toshiba 50 inch TV"'  class="form-control" aria-label="...">
+      <span id="search-button" class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+</div>
+<div class="row" id="search-result-area">
+  <div class="col-xs-12 col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
+    <div class="row">
+      <div class="col-xs-12 center">
+        <h1 id="searched-item"></h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12" id="results-display">
+      </div>
+    </div>
+  </div>
+</div>

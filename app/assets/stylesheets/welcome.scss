@@ -1,0 +1,125 @@
+// Place all the styles related to the welcome controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.center {
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#search-bar {
+  width:100%;
+}
+
+.dropdown-menu li {
+  padding-left: 8px;
+  .vendor-name {
+    padding: 4px 8px;
+    font-size: 1.15em;
+    color: #777;
+  }
+  .search-all {
+    padding: 4px 14px 4px 8px;
+    font-size: 1.15em;
+    color: #777;
+  }
+}
+
+#search-area {
+  margin-top: 15px;
+  width: 70%;
+}
+
+#search-button {
+  width: 50px;
+}
+
+#search-button:hover {
+  cursor: pointer;
+}
+
+#search-result-area {
+  display: none;
+}
+
+.product-row {
+  border: 1px solid #999;
+  border-radius: 10px;
+  margin-top: 25px;
+  padding: 15px 0 20px 0;
+}
+
+.product-img {
+    min-width: 136px;
+    width: 38%;
+    height: auto;
+    margin: 30px auto 10px auto;
+}
+
+.current-price {
+  font-size: 2em;
+  color: #f00;
+  margin: 5px auto 8px auto;
+}
+
+.regular-price {
+  color: #888;
+  margin: 5px auto 15px auto;
+}
+
+.product-name {
+  font-size: 2.15em;
+  color: #00f;
+  margin: 50px auto 15px auto;
+  text-decoration: none;
+  :hover {
+    text-decoration: none;
+  }
+}
+
+.company-logo {
+  width: 100%;
+  max-width: 280px;
+}
+
+.hide-product {
+  float: right;
+  color: #999;
+  font-size: 1.25em;
+  margin: 0 13px;
+}
+
+.hide-product:hover {
+  cursor: pointer;
+}
+
+.vendor-info {
+  clear: both;
+  margin: 60px auto 35px auto;
+}
+
+.buy-now {
+  line-height: 30px;
+  padding-top: 8px;
+  text-decoration: none;
+  color: #000;
+  :hover {
+    text-decoration: none;
+  }
+}
+
+.buy-now-button {
+  height: 40px;
+  font-size: 1.5em;
+  background-color: #ffa319;
+  border: 1px solid #ffa319;
+  border-radius: 6px;
+  color: #fff;
+  padding: 0 8px;
+}
+
+#vendor-section a, .product-content a,
+  #vendor-section a:hover, .product-content a:hover, {
+  text-decoration: none;
+}
