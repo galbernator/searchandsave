@@ -14,7 +14,7 @@ $(document).ready(function() {
     };
     // check vendors to fetch results for
     if ($('#walmart').attr('checked') !== undefined ) {
-      var company = "http://cdn-7.famouslogos.us/images/wal-mart-logo.jpg"
+      var company = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/New_Walmart_Logo.svg/1280px-New_Walmart_Logo.svg.png"
       searchQuery = $('#search-input').val();
       loadWalmartProducts(company);
     };
@@ -41,7 +41,7 @@ $(document).ready(function() {
   // takes the product information and returns a table row with the product information
   var renderWalmartProduct = function (company, product) {
     console.log(product.name + " has an MSRP of " + product.msrp);
-    return '<div class="row product-row" product-id="' + product.itemId + '"><span id="close" class="hide-product glyphicon glyphicon-remove-circle"></span><div class="col-xs-12 col-sm-3 center"><a href="' + product.productUrl + '" target="_blank"><img src="' + product.thumbnailImage + '" class="product-img" /></a><br /><span class="current-price">$' + product.salePrice + '</span><br /><span class="regular-price">' + walmartSaleCheck(product) + '</span></div><div class="col-xs-12 col-sm-6 center"><div class="product-content"><a href="' + product.productUrl + '" target="_blank"><h3 class="product-name">' + product.name + '</h3></a><span class="product-description">' + walmartDescriptionPresent(product) + '</span></div></div><div class="col-xs-12 col-sm-3 center" id="vendor-section"><a href="' + product.productUrl + '" target="_blank"><div class="vendor-info"><button class="buy-now-button">Buy Now</button><br><span class="buy-now">from:</span><img src="' + company + '" class="company-logo" /></div></a></div></div>';
+    return '<div class="row product-row" product-id="' + product.itemId + '"><span id="close" class="hide-product glyphicon glyphicon-remove-circle"></span><div class="col-xs-12 col-sm-3 center"><a href="' + product.productUrl + '" target="_blank"><img src="' + product.thumbnailImage + '" class="product-img" /></a><br /><span class="current-price">$' + product.salePrice + '</span><br /><span class="regular-price">' + walmartSaleCheck(product) + '</span></div><div class="col-xs-12 col-sm-6 center"><div class="product-content"><a href="' + product.productUrl + '" target="_blank"><h3 class="product-name">' + product.name + '</h3></a><span class="product-description">' + walmartDescriptionPresent(product) + '</span></div></div><div class="col-xs-12 col-sm-3 center" id="vendor-section"><a href="' + product.productUrl + '" target="_blank"><div class="vendor-info"><button class="buy-now-button">Buy Now</button><br><span class="buy-now">from:</span><br /><img src="' + company + '" class="company-logo" /></div></a></div></div>';
   };
 
   // adds the product from the list to the page by calling renderProduct
