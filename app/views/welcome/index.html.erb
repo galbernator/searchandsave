@@ -12,7 +12,7 @@
           <li><input type="checkbox" checked="true" id="all-vendors"><label for="all-vendors" class="search-all">Search All Retailers</span></a></li>
           <li role="separator" class="divider"></li>
           <% @vendors.each do |vendor| %>
-            <li><input type="checkbox" checked="true" id="<%= vendor.name.downcase %>" class="vendor-checkbox"><label for="<%= vendor.name %>" class="vendor-name"><%= vendor.name %></span></li>
+            <li><input type="checkbox" checked="true" id="<%= vendor.name.gsub(' ','').downcase %>" class="vendor-checkbox"><label for="<%= vendor.name.gsub(' ','').downcase %>" class="vendor-name"><%= vendor.name %></span></li>
           <% end %>
         </ul>
       </div><!-- /btn-group -->
