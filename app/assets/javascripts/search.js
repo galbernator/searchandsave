@@ -60,12 +60,13 @@ $(document).ready(function() {
     productList.append(html);
   };
 
+  // make a request to the Walmart API to get the products that match the search query
   var loadWalmartProducts = function (company) {
     var url = 'http://api.walmartlabs.com/v1/search?apiKey=' + walmartKey + '&query=' + searchQuery + '&format=json&callback=?';
     $.getJSON(url, function(data) {
       // loop through each of the results and then call addProduct on each result
       for (var i=0; i < data.items.length; i += 1) {
-        var product = data.items[i]
+        var product = data.items[i];
         addWalmartProduct(company, product);
       };
     })
@@ -85,9 +86,143 @@ $(document).ready(function() {
     }
   };
 
+  var bestBuyBrands = ["adobe","adopted","akg","alpine","amana","anna Sui","Apple","ASUS","AT&T","Ballistic","Beats","Belkin","BISSELL","BlackBerry","BLU","Boost Mobile","Bosch","Bose","Bowers & Wilkins","Brother","Case-Mate","Canon","Chief","Cole Haan","Corel","Corsair","Cuisinart","Cynthia Vincent","D-Link","Dell","Denon","Dirt Devil","Disney","Dynex","Dyson","Electrolux","Epson","Eureka","Evutec","Eye-fi","Fitbit","French bull","Frigidaire","Fujifilm","Garmin GPS","GE","Google","GoPro","Griffin","Harman Kardon","Hartke","HBO","Hoover","HP","iFrogz","Isaac Mizrahi New York", "Incase","Infinity","Insignia","Intel","iON","iRobot","Jabra","Jawbone","JBL","JVC","Kaspersky","kate spade new york","Kenwood","Keurig","Kicker","KitchenAid","Klipsch","LeapFrog","Lenovo","LG","LifeProof","Linksys","Logitech","Lorex","Lunatik","MartinLogan","Memorex","Microsoft","Modal","Monster","mophie","Moshi","Motorola","MyPublisher","Nanette Lepore","Nespresso","Nest","Nik","Ninja","Olympus","Onkyo","Optoma","OtterBox","Panasonic","Pentax","PEQ","Philips","Philips Norelco","Philips Sonicare","Pioneer","Plantronics","Platinum","PNY","Polk Audio","Qualcomm","Rocketfish","Rosetta Stone","Roxio","Samson","Samsung","SanDisk","Sanus","Seagate","Sennheiser","Shark","Sharp","Skullcandy","Slingbox","SodaStream","Sol Republic","Sony","Speck","SteelSeries","Swann","Swash","Targus","TCL","Tech21","Thule","TiVo","TomTom","Toshiba","Tracfone","Trend Micro","Turtle Beach","Ultimate Ears","Virgin Mobile","VIZIO","Vitamix","VTech","Wacom","WeBoost","Webroot","Westinghouse","WD","Whirlpool","XFX","Yamaha","Zagg"]
+
+
   // make the search term suitable for the Best Buy API format for general search
   var bestBuyQuery = function(str) {
-    var newQuery = str = str.replace(/\s+/g, "&search=");
+    var words = str.split(' ');
+    var lowered = [];
+    // make sure all manufacturer names are lower case to match search queries
+    for (var i = 0; i < bestBuyBrands.length; i += 1) {
+      lowered.push(bestBuyBrands[i].toLowerCase());
+    };
+    var newQuery = "";
+    for (var i = 0; i < words.length; i += 1) {
+      // manufactures with two words that need to be handled to return appropriate results
+      if (words[i].toLowerCase() === 'boost' && words[i+1] === 'mobile') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=boost%20mobile';
+        } else {
+          newQuery += 'manufacturer=boost%20mobile';
+        }
+      } else if (words[i].toLowerCase() === 'cole' && words[i+1] === 'haan') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=cole%20haan';
+        } else {
+          newQuery += 'manufacturer=cole%20haan';
+        }
+      } else if (words[i].toLowerCase() === 'cynthia' && words[i+1] === 'vincent') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=cynthia%20vincent';
+        } else {
+          newQuery += 'manufacturer=cynthia%20vincent';
+        }
+      } else if (words[i].toLowerCase() === 'dirt' && words[i+1] === 'devil') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=dirt%20devil';
+        } else {
+          newQuery += 'manufacturer=dirt%20devil';
+        }
+      } else if (words[i].toLowerCase() === 'french' && words[i+1] === 'bull') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=french%20bull';
+        } else {
+          newQuery += 'manufacturer=french%20bull';
+        }
+      } else if (words[i].toLowerCase() === 'harman' && words[i+1] === 'kardon') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=harman%20kardon';
+        } else {
+          newQuery += 'manufacturer=harman%20kardon';
+        }
+      } else if (words[i].toLowerCase() === 'isaac' && words[i+1] === 'mizrahi') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=isaac%20mizrahi%20new%20york';
+        } else {
+          newQuery += 'manufacturer=isaac%20mizrahi%20new%20york';
+        }
+      } else if (words[i].toLowerCase() === 'kate' && words[i+1] === 'spade') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=kate%20spade%20new%20york';
+        } else {
+          newQuery += 'manufacturer=kate%20spade%20new%20york';
+        }
+      } else if (words[i].toLowerCase() === 'nanette' && words[i+1] === 'lepore') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=nanette%20lepore';
+        } else {
+          newQuery += 'manufacturer=nanette%20lepore';
+        }
+      } else if (words[i].toLowerCase() === 'philips' && words[i+1] === 'norelco') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=philips%20norelco';
+        } else {
+          newQuery += 'manufacturer=philips%20norelco';
+        }
+      } else if (words[i].toLowerCase() === 'philips' && words[i+1] === 'sonicare') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=philips%20sonicare';
+        } else {
+          newQuery += 'manufacturer=philips%20sonicare';
+        }
+      } else if (words[i].toLowerCase() === 'polk' && words[i+1] === 'audio') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=polk%20audio';
+        } else {
+          newQuery += 'manufacturer=polk%20audio';
+        }
+      } else if (words[i].toLowerCase() === 'rosetta' && words[i+1] === 'stone') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=rosetta%20stone';
+        } else {
+          newQuery += 'manufacturer=rosetta%20stone';
+        }
+      } else if (words[i].toLowerCase() === 'sol' && words[i+1] === 'republic') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=sol%20republic';
+        } else {
+          newQuery += 'manufacturer=sol%20republic';
+        }
+      } else if (words[i].toLowerCase() === 'trend' && words[i+1] === 'micro') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=trend%20micro';
+        } else {
+          newQuery += 'manufacturer=trend%20micro';
+        }
+      } else if (words[i].toLowerCase() === 'turtle' && words[i+1] === 'beach') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=turtle%20beach';
+        } else {
+          newQuery += 'manufacturer=turtle%20beach';
+        }
+      } else if (words[i].toLowerCase() === 'ultimate' && words[i+1] === 'ears') {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=ultimate%20ears';
+        } else {
+          newQuery += 'manufacturer=ultimate%20ears';
+        }
+      } else if (words[i].toLowerCase() === 'virgin' && words[i+1] === 'mobile') {
+          if (newQuery.length > 0) {
+            newQuery += '&manufacturer=virgin%20mobile';
+          } else {
+            newQuery += 'manufacturer=virgin%20mobile';
+          }
+      } else if (lowered.indexOf(words[i].toLowerCase()) >= 0) {
+        if (newQuery.length > 0) {
+          newQuery += '&manufacturer=' + words[i].toLowerCase();
+        } else {
+          newQuery += 'manufacturer=' + words[i].toLowerCase();
+        }
+      } else {
+        if (newQuery.length > 0) {
+          newQuery += '&search=' + words[i].toLowerCase();
+        } else {
+          newQuery += 'search=' + words[i].toLowerCase();
+        }
+      }
+    }
+    // str.replace(/\s+/g, "&search=");
     return newQuery
   };
 
@@ -116,21 +251,21 @@ $(document).ready(function() {
 
   // adds the product from the list to the page by calling renderProduct
   var addBestBuyProduct = function (company, product) {
-    var html = renderWalmartProduct(company, product);
+    var html = renderBestBuyProduct(company, product);
     productList.append(html);
   };
 
+  // make a request to the Best Buy API to get the products that match the search query
   var loadBestBuyProducts = function (company) {
-    var url = 'http://api.bestbuy.com/v1/products(search=' + bestBuyQuery(searchQuery) + ')?show=sku,name,shortDescription,customerReviewAverage,thumbnailImage,regularPrice,salePrice,url&sort=salesRankMediumTerm.asc,salePrice.dsc&apiKey=' + bestbuyKey +'&format=json';
+    var url = 'http://api.bestbuy.com/v1/products(' + bestBuyQuery(searchQuery) + ')?show=sku,name,shortDescription,customerReviewAverage,thumbnailImage,regularPrice,salePrice,url&sort=salesRankMediumTerm.asc,salePrice.dsc&apiKey=' + bestbuyKey +'&format=json';
 
 
     $.getJSON(url, function(data) {
       // loop through each of the results and then call addProduct on each result
       console.log(data);
       for (var i=0; i < data.products.length; i += 1) {
-        var product = data.products[i]
-        console.log("The product URL is " + product.url);
-        addWalmartProduct(company, product);
+        var product = data.products[i];
+        addBestBuyProduct(company, product);
       }
   }, 'jsonp');
   };
