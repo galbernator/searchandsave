@@ -88,6 +88,16 @@ $(document).ready(function() {
 
   var bestBuyBrands = ["adobe","adopted","akg","alpine","amana","anna Sui","Apple","ASUS","AT&T","Ballistic","Beats","Belkin","BISSELL","BlackBerry","BLU","Boost Mobile","Bosch","Bose","Bowers & Wilkins","Brother","Case-Mate","Canon","Chief","Cole Haan","Corel","Corsair","Cuisinart","Cynthia Vincent","D-Link","Dell","Denon","Dirt Devil","Disney","Dynex","Dyson","Electrolux","Epson","Eureka","Evutec","Eye-fi","Fitbit","French bull","Frigidaire","Fujifilm","Garmin GPS","GE","Google","GoPro","Griffin","Harman Kardon","Hartke","HBO","Hoover","HP","iFrogz","Isaac Mizrahi New York", "Incase","Infinity","Insignia","Intel","iON","iRobot","Jabra","Jawbone","JBL","JVC","Kaspersky","kate spade new york","Kenwood","Keurig","Kicker","KitchenAid","Klipsch","LeapFrog","Lenovo","LG","LifeProof","Linksys","Logitech","Lorex","Lunatik","MartinLogan","Memorex","Microsoft","Modal","Monster","mophie","Moshi","Motorola","MyPublisher","Nanette Lepore","Nespresso","Nest","Nik","Ninja","Olympus","Onkyo","Optoma","OtterBox","Panasonic","Pentax","PEQ","Philips","Philips Norelco","Philips Sonicare","Pioneer","Plantronics","Platinum","PNY","Polk Audio","Qualcomm","Rocketfish","Rosetta Stone","Roxio","Samson","Samsung","SanDisk","Sanus","Seagate","Sennheiser","Shark","Sharp","Skullcandy","Slingbox","SodaStream","Sol Republic","Sony","Speck","SteelSeries","Swann","Swash","Targus","TCL","Tech21","Thule","TiVo","TomTom","Toshiba","Tracfone","Trend Micro","Turtle Beach","Ultimate Ears","Virgin Mobile","VIZIO","Vitamix","VTech","Wacom","WeBoost","Webroot","Westinghouse","WD","Whirlpool","XFX","Yamaha","Zagg"]
 
+  // var twoWordBrandSearch = function(firstWord, secondWord) {
+  //   if (words[i].toLowerCase() === firstWord && words[i+1] === secondWord) {
+  //     if (newQuery.length > 0) {
+  //       newQuery += '&manufacturer=' + firstWord + '%20' + secondWord;
+  //     } else {
+  //       newQuery += 'manufacturer=' + firstWord + '%20' + secondWord;
+  //     }
+  //   }
+  // }
+
 
   // make the search term suitable for the Best Buy API format for general search
   var bestBuyQuery = function(str) {
