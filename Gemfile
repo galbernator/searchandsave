@@ -50,5 +50,6 @@ group :development, :test do
   gem 'hirb'
   gem 'awesome_print'
   gem 'interactive_editor'
+  gem 'rspec-rails', '~> 3.0'
 
 end
