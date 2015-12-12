@@ -5,6 +5,47 @@
 </div>
 <div class="row">
   <div class="col-xs-12 col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
+    <%= form_for @search, url: search_index_url, remote: true, html: {'data-model' => 'search', id: 'search-form'} do |f| %>
+    <div class="input-group">
+      <div class="input-group-btn dropdown keep-open">
+        <button id="vendor-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>All Retailers</span> <span class="caret"></span></button>
+        <ul class="dropdown-menu" id="vendor-dropdown">
+          <li><input type="checkbox" checked="true" id="all-vendors"><label for="all-vendors" class="search-all">Search All Retailers</span></a></li>
+          <li role="separator" class="divider"></li>
+          <%= f.collection_check_boxes(:vendor_ids, Vendor.all, :id, :name) do |b| %>
+            <li>
+              <%= b.check_box(class: 'vendor-checkbox', :'checked' => 'checked') %><%= b.label(class: 'vendor-name') %>
+            </li>
+          <% end %>
+        </ul>
+      <%= f.text_field :search_query, placeholder: 'e.g "Apple iPhone 64GB T-Mobile"', class: "form-control", id: "search-input" %>
+      <span class="input-group-btn">
+        <%= f.button " Search", class: 'btn btn-default glyphicon glyphicon-search pull-right' %>
+      </span>
+    <% end %>
+    </div>
+  </div>
+</div>
+<div class="row" id="search-result-area">
+  <div class="col-xs-12 col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
+    <div class="row">
+      <div class="col-xs-12 center">
+        <h1 id="searched-item"></h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12" id="results-display">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 center">
+    <h1>This is the site banner header</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
     <div class="input-group">
       <div class="input-group-btn dropdown keep-open">
         <button id="vendor-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>All Retailers</span> <span class="caret"></span></button>
@@ -12,14 +53,14 @@
           <li><input type="checkbox" checked="true" id="all-vendors"><label for="all-vendors" class="search-all">Search All Retailers</span></a></li>
           <li role="separator" class="divider"></li>
           <% @vendors.each do |vendor| %>
-            <li><input type="checkbox" checked="true" id="<%= vendor.name.gsub(' ','').downcase %>" class="vendor-checkbox"><label for="<%= vendor.name.gsub(' ','').downcase %>" class="vendor-name"><%= vendor.name %></span></li>
+            <li><input type="checkbox" checked="true" id="<%= vendor.name.gsub(' ','').downcase %>" class="vendor-checkbox"><label for="<%= vendor.name.gsub(' ','').downcase %>" class="vendor-name"><%= vendor.name %></label></li>
           <% end %>
         </ul>
       </div><!-- /btn-group -->
       <input id="search-input" type="text" placeholder='e.g "Toshiba 50 inch TV"'  class="form-control" aria-label="...">
       <span id="search-button" class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
+    </div>
+  </div>
 </div>
 <div class="row" id="search-result-area">
   <div class="col-xs-12 col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">

@@ -31,16 +31,18 @@
   width: 70%;
 }
 
+#search-button2 {
+  width: 150px;
+  cursor: pointer;
+  cursor: hand;
+}
+
 #search-button {
   width: 50px;
 }
 
 #search-button:hover {
   cursor: pointer;
-}
-
-#search-result-area {
-  display: none;
 }
 
 .product-row {
@@ -78,9 +80,14 @@
   }
 }
 
-.company-logo {
+.walmart-logo {
   width: 100%;
   max-width: 280px;
+}
+
+.best-buy-logo {
+  width: 90%;
+  max-width: 140px;
 }
 
 .hide-product {
