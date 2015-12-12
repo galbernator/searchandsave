@@ -1,7 +1,7 @@
 class WelcomeController < ApplicationController
 
   def index
-    @vendors = Vendor.order("lower(name)")
+    @search = Search.new
   end
 
 end

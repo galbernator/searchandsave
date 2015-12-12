@@ -4,6 +4,28 @@ $(document).ready(function() {
   var bestbuyKey = 'g9geuwyx5xr49eka2hb3cwn8';
   var searchQuery
   var productList = $('#results-display');
+  var allProductResults = []
+  var numberOfVendorsChecked
+  var vendorResponses
+
+  // check and see that all the vendors have responded
+  var responseCheck = function() {
+    if (vendorResponses !== numberOfVendorsChecked) {
+      console.log("Recieved " + vendorResponses + " of " + numberOfVendorsChecked + " responses needed");
+    } else {
+      console.log(allProductResults);
+      // sort the products by price
+      allProductResults = allProductResults.sort(
+                            function(obj1, obj2) {
+                             return obj2.salePrice - obj1.salePrice;
+                            });
+      // loop over all of the products and render each one to the products to the page
+      for (var i=0; i < allProductResults.length; i+=1) {
+        var product = allProductResults[i]
+        renderProduct(product)
+      }
+    }
+  };
 
   // when search button is clicked, clear results list and then check which vendors are checked
   $('#search-button').click(function() {
@@ -16,6 +38,11 @@ $(document).ready(function() {
     if (resultArea.css("display") == "none") {
       resultArea.show();
     };
+    // find out how many vendors are checked
+    numberOfVendorsChecked = $('#vendor-dropdown li').find('input[type="checkbox"]:checked').length;
+    if ($('#all-vendors').is(':checked') == true) {
+      numberOfVendorsChecked -= 1
+    }
     // check Walmart is selected to fetch results if checked
     if ($('#walmart').attr('checked') !== undefined ) {
       var company = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/New_Walmart_Logo.svg/1280px-New_Walmart_Logo.svg.png";
@@ -28,6 +55,10 @@ $(document).ready(function() {
       loadBestBuyProducts(company);
     };
   });
+
+  var renderProduct = function (product) {
+    return '<div class="row product-row" product-id="' + product.sku + '"><span id="close" class="hide-product glyphicon glyphicon-remove-circle"></span><div class="col-xs-12 col-sm-3 center"><a href="' + product.link + '" target="_blank"><img src="' + product.image + '" class="product-img" /></a><br /><span class="current-price">$' + product.salePrice + '</span><br /><span class="regular-price">' + product.regularPrice + '</span></div><div class="col-xs-12 col-sm-6 center"><div class="product-content"><a href="' + product.link + '" target="_blank"><h3 class="product-name">' + product.name + '</h3></a><span class="product-description">' + product.description + '</span></div></div><div class="col-xs-12 col-sm-3 center" id="vendor-section"><a href="' + product.link + '" target="_blank"><div class="vendor-info"><button class="buy-now-button">Buy Now</button><br><span class="buy-now">from:</span><br /><img src="' + product.company + '" class="' + product.companyName+ '-logo" /></div></a></div></div>';
+  };
 
 // START WALMART SEARCH FUNCTIONS_______________________________________________
 
@@ -51,7 +82,7 @@ $(document).ready(function() {
 
   // takes the product information and returns a table row with the product information
   var renderWalmartProduct = function (company, product) {
-    return '<div class="row product-row" product-id="' + product.itemId + '"><span id="close" class="hide-product glyphicon glyphicon-remove-circle"></span><div class="col-xs-12 col-sm-3 center"><a href="' + product.productUrl + '" target="_blank"><img src="' + product.thumbnailImage + '" class="product-img" /></a><br /><span class="current-price">$' + product.salePrice + '</span><br /><span class="regular-price">' + walmartSaleCheck(product) + '</span></div><div class="col-xs-12 col-sm-6 center"><div class="product-content"><a href="' + product.productUrl + '" target="_blank"><h3 class="product-name">' + product.name + '</h3></a><span class="product-description">' + walmartDescriptionPresent(product) + '</span></div></div><div class="col-xs-12 col-sm-3 center" id="vendor-section"><a href="' + product.productUrl + '" target="_blank"><div class="vendor-info"><button class="buy-now-button">Buy Now</button><br><span class="buy-now">from:</span><br /><img src="' + company + '" class="company-logo" /></div></a></div></div>';
+    return '<div class="row product-row" product-id="' + product.itemId + '"><span id="close" class="hide-product glyphicon glyphicon-remove-circle"></span><div class="col-xs-12 col-sm-3 center"><a href="' + product.productUrl + '" target="_blank"><img src="' + product.thumbnailImage + '" class="product-img" /></a><br /><span class="current-price">$' + product.salePrice + '</span><br /><span class="regular-price">' + walmartSaleCheck(product) + '</span></div><div class="col-xs-12 col-sm-6 center"><div class="product-content"><a href="' + product.productUrl + '" target="_blank"><h3 class="product-name">' + product.name + '</h3></a><span class="product-description">' + walmartDescriptionPresent(product) + '</span></div></div><div class="col-xs-12 col-sm-3 center" id="vendor-section"><a href="' + product.productUrl + '" target="_blank"><div class="vendor-info"><button class="buy-now-button">Buy Now</button><br><span class="buy-now">from:</span><br /><img src="' + company + '" class="walmart-logo" /></div></a></div></div>';
   };
 
   // adds the product from the list to the page by calling renderProduct
@@ -64,10 +95,25 @@ $(document).ready(function() {
   var loadWalmartProducts = function (company) {
     var url = 'http://api.walmartlabs.com/v1/search?apiKey=' + walmartKey + '&query=' + searchQuery + '&format=json&callback=?';
     $.getJSON(url, function(data) {
+      console.log(data);
       // loop through each of the results and then call addProduct on each result
       for (var i=0; i < data.items.length; i += 1) {
         var product = data.items[i];
-        addWalmartProduct(company, product);
+        allProductResults.push({
+          sku: product.itemId,
+          link: product.productUrl,
+          image: product.thumbnailImage,
+          salePrice: product.salePrice,
+          regularPrice: walmartSaleCheck(product),
+          name: product.name,
+          description: walmartDescriptionPresent(product),
+          company: company,
+          companyName: 'walmart'
+        });
+        vendorResponses =+ 1;
+        console.log(allProductResults);
+        responseCheck();
+        // addWalmartProduct(company, product);
       };
     })
   };
@@ -256,7 +302,7 @@ $(document).ready(function() {
 
   // takes the product information and returns a table row with the product information
   var renderBestBuyProduct = function (company, product) {
-    return '<div class="row product-row" product-id="' + product.sku + '"><span id="close" class="hide-product glyphicon glyphicon-remove-circle"></span><div class="col-xs-12 col-sm-3 center"><a href="' + product.url + '" target="_blank"><img src="' + product.thumbnailImage + '" class="product-img" /></a><br /><span class="current-price">$' + product.salePrice + '</span><br /><span class="regular-price">' + product.regularPrice + '</span></div><div class="col-xs-12 col-sm-6 center"><div class="product-content"><a href="' + product.url + '" target="_blank"><h3 class="product-name">' + product.name + '</h3></a><span class="product-description">' + product.shortDescription + '</span></div></div><div class="col-xs-12 col-sm-3 center" id="vendor-section"><a href="' + product.url + '" target="_blank"><div class="vendor-info"><button class="buy-now-button">Buy Now</button><br><span class="buy-now">from:</span><br /><img src="' + company + '"  class="company-logo" /></div></a></div></div>';
+    return '<div class="row product-row" product-id="' + product.sku + '"><span id="close" class="hide-product glyphicon glyphicon-remove-circle"></span><div class="col-xs-12 col-sm-3 center"><a href="' + product.url + '" target="_blank"><img src="' + product.thumbnailImage + '" class="product-img" /></a><br /><span class="current-price">$' + product.salePrice + '</span><br /><span class="regular-price">' + product.regularPrice + '</span></div><div class="col-xs-12 col-sm-6 center"><div class="product-content"><a href="' + product.url + '" target="_blank"><h3 class="product-name">' + product.name + '</h3></a><span class="product-description">' + product.shortDescription + '</span></div></div><div class="col-xs-12 col-sm-3 center" id="vendor-section"><a href="' + product.url + '" target="_blank"><div class="vendor-info"><button class="buy-now-button">Buy Now</button><br><span class="buy-now">from:</span><br /><img src="' + company + '"  class="best-buy-logo" /></div></a></div></div>';
   };
 
   // adds the product from the list to the page by calling renderProduct
@@ -275,7 +321,21 @@ $(document).ready(function() {
       console.log(data);
       for (var i=0; i < data.products.length; i += 1) {
         var product = data.products[i];
-        addBestBuyProduct(company, product);
+        allProductResults.push({
+          sku: product.sku,
+          link: product.url,
+          image: product.thumbnailImage,
+          salePrice: product.salePrice,
+          regularPrice: product.regularPrice,
+          name: product.name,
+          description: product.shortDescription,
+          company: company,
+          companyName: 'best-buy'
+        });
+        vendorResponses =+ 1;
+        console.log(allProductResults);
+        responseCheck();
+        // addBestBuyProduct(company, product);
       }
   }, 'jsonp');
   };
